@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}个人笔记列表{% endblock %}
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <div class="crumbs">
+                <ul>
+                    <li><a href="{% url 'index' %}">首页</a>></li>
+                    <li><a href="{% url 'notes:note_list' %}">笔记列表</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block content %}
+    <section>
+	<div class="wp">
+		<div class="list" style="margin-top:0;">
+			<div class="left layout">
+				<div class="head">
+					<ul class="tab_header">
+						<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="?sort=">公开最新 </a></li>
+						<li class="{% ifequal sort 'hot' %}active{% endifequal %}"><a href="?sort=hot">公开最热门</a></li>
+                        <li class="{% ifequal sort 'private' %}active{% endifequal %}"><a href="?sort=private">我的笔记</a></li>
+                        <li class=""><a href="{% url 'notes:new_editor' %}">新建笔记</a></li>
+					</ul>
+				</div>
+                <div id="inWindow">
+                    <div class="tab_cont " id="content">
+					<div class="group_list">
+                        {% for note in all_notes.object_list %}
+                            <div class="box">
+                                <a href="{% url 'notes:note_detail' note.id %}">
+                                    <img width="280" height="350" class="scrollLoading" src="{{ MEDIA_URL }}{{ note.image }}"/>
+                                </a>
+                                <div class="des">
+                                    <a href="{% url 'notes:note_detail' note.id %}">
+                                        <h2>{{ note.name }}</h2>
+                                    </a>
+                                    <span class="fl">时间:{{ note.add_time }}<i class="key"></i></span>
+                                    <span class="fr">点击次数:{{ note.click_nums }}&nbsp;&nbsp;</span>
+                                </div>
+                                <div class="bottom">
+                                    <a href=""><span class="fl">作者：{{ note.author.nick_name }}</span></a>
+                                    <span class="star fr  notlogin
+                                        " data-favid="15">
+                                        1
+                                    </span>
+                                </div>
+                            </div>
+                        {% endfor %}
+					</div>
+                    <div class="pageturn">
+                        <ul class="pagelist">
+                            {% if all_notes.has_previous %}
+                                 <li class="long"><a href="?{{ all_notes.previous_page_number.querystring}}">上一页</a></li>
+                            {% endif %}
+                            {% for page in all_notes.pages %}
+                                {% if page %}
+                                    {% ifequal page all_notes.number %}
+                                        <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                    {% else %}
+                                        <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                                    {% endifequal %}
+                                {% else %}
+                                     <li class="none"><a href="">...</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if all_notes.has_next %}
+                                <li class="long"><a href="?{{ all_notes.next_page_number.querystring}}">下一页</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+				</div>
+                </div>
+			</div>
+			<div class="right layout">
+				<div class="head">分类目录</div>
+				<div class="group_recommend">
+                    <dl>
+						<dd>
+                            {% for ca in CATEGORIES %}
+                                <a href="{% url 'notes:note_list_by_cg' cg=ca.name %}"><h2> {{ ca.name }}({{ ca.num_notes }})</h2></a>
+                            {% endfor %}
+						</dd>
+					</dl>
+
+				</div>
+                <div class="head">标签</div>
+				<div class="group_recommend">
+                    <dl>
+						<dd>
+							<a href=""><h2> pass </h2></a>
+						</dd>
+					</dl>
+				</div>
+                <div class="head">微博</div>
+                <ul>
+                                <iframe width="100%" height="310" class="share_self"  frameborder="0" scrolling="no"
+                                src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5795153368&verifier=d5702a0b&dpc=1">
+                                </iframe>
+                                <!-- 加关注按钮 -->
+                            </ul>
+			</div>
+
+		</div>
+	</div>
+</section>
+{% endblock %}
+{% block custom_js %}
+{% endblock %}
