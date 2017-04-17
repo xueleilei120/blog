@@ -21,10 +21,16 @@
 			<div class="left layout">
 				<div class="head">
 					<ul class="tab_header">
-						<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="?sort=">公开最新 </a></li>
-						<li class="{% ifequal sort 'hot' %}active{% endifequal %}"><a href="?sort=hot">公开最热门</a></li>
+                        <li class="{% ifequal sort 'hot' %}active{% endifequal %}"><a href="?sort=hot">公开最热门</a></li>
                         <li class="{% ifequal sort 'private' %}active{% endifequal %}"><a href="?sort=private">我的笔记</a></li>
-                        <li class=""><a href="{% url 'notes:new_editor' %}">新建笔记</a></li>
+                        {% for ca in CATEGORIES %}
+                                <li >
+								    <a href="{% url 'notes:note_list_by_cg' cg=ca.name %}">
+                                        {{ ca.name }}({{ ca.num_notes }})
+								    </a>
+							    </li>
+                        {% endfor %}
+
 					</ul>
 				</div>
                 <div id="inWindow">
@@ -76,6 +82,7 @@
 				</div>
                 </div>
 			</div>
+            <!--
 			<div class="right layout">
 				<div class="head">分类目录</div>
 				<div class="group_recommend">
@@ -101,10 +108,9 @@
                                 <iframe width="100%" height="310" class="share_self"  frameborder="0" scrolling="no"
                                 src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5795153368&verifier=d5702a0b&dpc=1">
                                 </iframe>
-                                <!-- 加关注按钮 -->
                             </ul>
 			</div>
-
+            -->
 		</div>
 	</div>
 </section>

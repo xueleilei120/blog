@@ -65,6 +65,7 @@
                                 <li data-value="hot">公开最热</li>
                                 <li data-value="private">我的笔记</li>
                             </ul>
+
                         </div>
                         <input id="search_keywords" class="fl" type="text" value="" placeholder="请输入搜索内容"/>
                         <img class="search_btn fr" id="jsSearchBtn" src="{% static 'images/search_btn.png' %}"/>
@@ -77,9 +78,14 @@
 					<div class="wp">
 						<ul>
 							<li {% if request.path|slice:'6' == 'c' %}class="active"{% endif %}><a href="{% url 'index' %}">首页</a></li>
-							<li {% if request.path|slice:'6' == '/notes' %}class="active"{% endif %}>
+							<li {% if request.path|slice:'11' == '/notes/list' %}class="active"{% endif %}>
 								<a href="{% url 'notes:note_list' %}">
 									个人笔记<img class="active" src="{% static 'images/nav_hot.png' %}">
+								</a>
+							</li>
+                            <li {% if request.path|slice:'13' == '/notes/editor' %}class="active"{% endif %}>
+								<a href="{% url 'notes:new_editor' %}">
+									新建笔记
 								</a>
 							</li>
 						</ul>
