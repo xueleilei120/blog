@@ -33,48 +33,7 @@ class NotesView(View):
                  return HttpResponseRedirect(reverse("login"))
             all_notes = all_notes.filter(author=request.user)
         else:
-            all_notes = all_notes.filter(is_public=True)
-
-        # 对课程进行分页
-        try:
-            page = request.GET.get('page', 1)
-        except PageNotAnInteger:
-            page = 1
-
-        p = Paginator(all_notes, 4, request=request)
-
-        notes = p.page(page)
-        return render(request, 'note-list.html', {
-            'all_notes': notes,
-            'sort': sort,
-        })
-
-class NotesViewByCategory(View):
-    """
-    分类笔记列表
-    """
-    def get(self, request, cg):
-        all_notes = Notes.objects.all().order_by("-add_time")
-        # 搜索
-        search_keywords = request.GET.get('keywords', '')
-        if search_keywords:
-            all_notes = all_notes.filter(Q(author__icontains=search_keywords) | Q(name__icontains=search_keywords) |
-                                         Q(content__icontains=search_keywords))
-        # 排序sort
-        sort = request.GET.get('sort', '')
-
-        if sort == 'hot':
-            all_notes = all_notes.filter(is_public=True).order_by("-click_nums")
-        elif sort == 'private':
-            # 用户是否登陆
-            if not request.user.is_authenticated():
-                 return HttpResponseRedirect(reverse("login"))
-            all_notes = all_notes.filter(author=request.user)
-        else:
-            all_notes = all_notes.filter(is_public=True)
-
-        # 找出符合分类的文章
-        all_notes = all_notes.filter(category__name=cg)
+            all_notes = all_notes.filter(Q(is_public=True) & Q(category__name=sort))
 
         # 对课程进行分页
         try:

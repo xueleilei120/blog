@@ -24,8 +24,13 @@
                         <li class="{% ifequal sort 'hot' %}active{% endifequal %}"><a href="?sort=hot">公开最热门</a></li>
                         <li class="{% ifequal sort 'private' %}active{% endifequal %}"><a href="?sort=private">我的笔记</a></li>
                         {% for ca in CATEGORIES %}
-                                <li >
-								    <a href="{% url 'notes:note_list_by_cg' cg=ca.name %}">
+                                <li class="{% ifequal sort ca.name %}active{% endifequal %}" >
+                                    <!--
+								    <a class="{% ifequal sort ca.name %}active{% endifequal %}" href="{% url 'notes:note_list_by_cg' cg=ca.name %}">
+                                        {{ ca.name }}({{ ca.num_notes }})
+								    </a>
+                                    -->
+                                    <a href="?sort={{ ca.name }}">
                                         {{ ca.name }}({{ ca.num_notes }})
 								    </a>
 							    </li>

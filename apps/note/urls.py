@@ -9,7 +9,7 @@
 from django.conf.urls import url, include
 
 
-from note.views import NotesView, NotesDetailView, NotesEditorView, NewEditorView, NotesViewByCategory
+from note.views import NotesView, NotesDetailView, NotesEditorView, NewEditorView
 
 
 urlpatterns = [
@@ -24,8 +24,5 @@ urlpatterns = [
 
     # 增加笔记
     url(r'^editor/$', NewEditorView.as_view(), name="new_editor"),
-
-    # 分类
-    url(r'^list/category/(?P<cg>\w+)/$', NotesViewByCategory.as_view(), name="note_list_by_cg"),
 
 ]
