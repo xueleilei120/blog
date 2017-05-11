@@ -46,3 +46,8 @@ urlpatterns = [
     # 邮箱验证码
     url(r'^captcha/', include('captcha.urls')),
 ]
+
+
+#全局404页面配置
+handler404 = 'users.views.page_not_found'
+handler500 = 'users.views.page_error'

@@ -23,7 +23,7 @@ class NotesView(View):
             all_notes = all_notes.filter(Q(author__icontains=search_keywords) | Q(name__icontains=search_keywords) |
                                          Q(content__icontains=search_keywords))
         # 排序sort
-        sort = request.GET.get('sort', '')
+        sort = request.GET.get('sort', 'hot')
 
         if sort == 'hot':
             all_notes = all_notes.filter(is_public=True).order_by("-click_nums")
